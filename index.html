@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>João Verde — Inteligência Artificial para o Agronegócio</title>
+    <meta name="description" content="IA que transforma dados climáticos, satelitais e de solo em decisões acionáveis para o produtor rural. Terra Verde Seguros.">
+    <meta property="og:title" content="João Verde — IA para o Agronegócio">
+    <meta property="og:description" content="65 ferramentas de IA integradas. 35 anos de dados climáticos. Decisões que cabem no WhatsApp.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#1a3a2a">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    terra: { 950:'#081610', 900:'#0d1f15', 800:'#1a3a2a', 700:'#234d38', 600:'#2d6148' },
+                    verde: { 600:'#16a34a', 500:'#22c55e', 400:'#4ade80', 300:'#86efac' },
+                    trigo: { 600:'#b8922e', 500:'#d4a843', 400:'#e0bb5e', 300:'#ecd07a' },
+                    areia: { 50:'#faf7f3', 100:'#f5f0eb', 200:'#ebe3d9', 300:'#ddd3c6' },
+                },
+                fontFamily: {
+                    display: ['Fraunces','Georgia','serif'],
+                    body: ['"DM Sans"','system-ui','sans-serif'],
+                },
+            },
+        },
+    }
+    </script>
+
+    <style>
+        /* ── Scroll reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: .1s; }
+        .reveal-delay-2 { transition-delay: .2s; }
+        .reveal-delay-3 { transition-delay: .25s; }
+        .reveal-delay-4 { transition-delay: .35s; }
+        .reveal-delay-5 { transition-delay: .45s; }
+
+        /* ── Hero grid animation ── */
+        .topo-grid {
+            background-image:
+                linear-gradient(rgba(34,197,94,.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(34,197,94,.06) 1px, transparent 1px);
+            background-size: 56px 56px;
+            animation: grid-drift 30s linear infinite;
+        }
+        @keyframes grid-drift {
+            to { background-position: 56px 56px; }
+        }
+
+        /* ── Grain overlay ── */
+        .grain::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: .035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 128px 128px;
+        }
+
+        /* ── CTA pulse ── */
+        @keyframes pulse-ring {
+            0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.45); }
+            70%  { box-shadow: 0 0 0 14px rgba(34,197,94,0); }
+            100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+        }
+        .cta-pulse { animation: pulse-ring 2.2s ease-out infinite; }
+
+        /* ── Floating button pulse ── */
+        @keyframes float-pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+        .float-btn { animation: float-pulse 3s ease-in-out infinite; }
+
+        /* ── Custom selection ── */
+        ::selection {
+            background-color: rgba(34,197,94,.25);
+            color: #1a3a2a;
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0d1f15; }
+        ::-webkit-scrollbar-thumb { background: #234d38; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2d6148; }
+
+        /* ── Card hover ── */
+        .pillar-card {
+            transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease;
+        }
+        .pillar-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,.25);
+        }
+
+        /* ── Wave dividers ── */
+        .wave-top svg, .wave-bottom svg { display: block; width: 100%; height: auto; }
+    </style>
+</head>
+
+<body class="font-body text-terra-800 bg-areia-100 overflow-x-hidden">
+
+<!-- ══════════════════════════════════════════
+     ACCENT BAR
+     ══════════════════════════════════════════ -->
+<div class="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-verde-500 via-trigo-500 to-verde-500 z-50"></div>
+
+<!-- ══════════════════════════════════════════
+     FLOATING WHATSAPP
+     ══════════════════════════════════════════ -->
+<a href="https://wa.me/5564999531328" target="_blank" rel="noopener"
+   class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-verde-500 rounded-full flex items-center justify-center shadow-xl shadow-verde-500/25 hover:bg-verde-400 transition-colors float-btn"
+   aria-label="Abrir conversa no WhatsApp">
+    <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.67-1.318A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.204 0-4.262-.655-5.976-1.785l-.418-.273-2.774.783.845-2.637-.305-.465A9.944 9.944 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+</a>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 1 — HERO
+     ══════════════════════════════════════════════════════════════ -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-terra-900 grain">
+    <!-- Grid overlay -->
+    <div class="absolute inset-0 topo-grid"></div>
+    <!-- Radial glow -->
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse 60% 50% at 50% 45%, rgba(34,197,94,.08) 0%, transparent 70%);"></div>
+
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+        <!-- Badge -->
+        <div class="reveal inline-flex items-center gap-2 px-5 py-2 rounded-full border border-verde-500/25 bg-verde-500/8 mb-10">
+            <svg class="w-4 h-4 text-verde-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span class="text-verde-400 font-body text-sm tracking-widest uppercase font-medium">Terra Verde Seguros</span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="reveal reveal-delay-1 font-display font-bold leading-[0.9] mb-8">
+            <span class="block text-areia-100 text-7xl sm:text-8xl md:text-9xl lg:text-[10rem]">João</span>
+            <span class="block text-verde-500 text-7xl sm:text-8xl md:text-9xl lg:text-[10rem]">Verde</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="reveal reveal-delay-2 font-body text-xl sm:text-2xl md:text-3xl text-areia-200/80 font-light tracking-tight mb-10">
+            Inteligência Artificial para o Agronegócio
+        </p>
+
+        <!-- Event badge -->
+        <div class="reveal reveal-delay-3 inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-trigo-500/8 border border-trigo-500/20">
+            <div class="w-2 h-2 rounded-full bg-trigo-500 animate-pulse"></div>
+            <span class="text-trigo-400 font-body text-sm sm:text-base font-medium tracking-wide">
+                Vendedores Artificiais. Resultados Exponenciais.
+            </span>
+        </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+        <span class="font-body text-areia-300 text-xs tracking-widest uppercase">Scroll</span>
+        <svg class="w-5 h-5 text-areia-300 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 2 — O PROBLEMA
+     ══════════════════════════════════════════════════════════════ -->
+<section class="relative py-24 sm:py-32 bg-areia-50">
+    <!-- Wave transition from dark -->
+    <div class="absolute -top-px left-0 right-0 wave-top">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="#0d1f15"><path d="M0,0 L1440,0 L1440,40 Q1080,80 720,40 Q360,0 0,40 Z"/></svg>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <p class="reveal font-body text-verde-600 font-semibold text-sm tracking-widest uppercase mb-4">O desafio do produtor</p>
+            <h2 class="reveal reveal-delay-1 font-display text-4xl sm:text-5xl md:text-6xl font-bold text-terra-800 leading-tight">
+                Dados demais.<br>
+                <span class="text-terra-800/40">Decisões de menos.</span>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <!-- Pain 1 -->
+            <div class="reveal reveal-delay-1 group p-8 rounded-2xl bg-white border border-areia-200 hover:border-trigo-500/30 transition-colors">
+                <div class="w-14 h-14 rounded-xl bg-trigo-500/10 flex items-center justify-center mb-6 group-hover:bg-trigo-500/20 transition-colors">
+                    <i data-lucide="cloud-off" class="w-7 h-7 text-trigo-600"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-terra-800 mb-3">Previsões fragmentadas</h3>
+                <p class="font-body text-terra-700/70 leading-relaxed">5+ aplicativos diferentes, dados conflitantes, nenhum traduzido para a realidade da lavoura.</p>
+            </div>
+            <!-- Pain 2 -->
+            <div class="reveal reveal-delay-2 group p-8 rounded-2xl bg-white border border-areia-200 hover:border-trigo-500/30 transition-colors">
+                <div class="w-14 h-14 rounded-xl bg-trigo-500/10 flex items-center justify-center mb-6 group-hover:bg-trigo-500/20 transition-colors">
+                    <i data-lucide="file-question" class="w-7 h-7 text-trigo-600"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-terra-800 mb-3">Seguro complexo e opaco</h3>
+                <p class="font-body text-terra-700/70 leading-relaxed">Contratos técnicos demais, sem clareza sobre coberturas, gatilhos ou como acionar quando precisa.</p>
+            </div>
+            <!-- Pain 3 -->
+            <div class="reveal reveal-delay-3 group p-8 rounded-2xl bg-white border border-areia-200 hover:border-trigo-500/30 transition-colors">
+                <div class="w-14 h-14 rounded-xl bg-trigo-500/10 flex items-center justify-center mb-6 group-hover:bg-trigo-500/20 transition-colors">
+                    <i data-lucide="trending-down" class="w-7 h-7 text-trigo-600"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-terra-800 mb-3">Perda sem orientação</h3>
+                <p class="font-body text-terra-700/70 leading-relaxed">Quando a lavoura sofre, o produtor fica sozinho — sem análise técnica acessível para entender o que aconteceu.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 3 — A SOLUÇÃO: JOÃO VERDE (5 PILARES)
+     ══════════════════════════════════════════════════════════════ -->
+<section class="relative py-24 sm:py-32 bg-terra-800 grain overflow-hidden">
+    <!-- Subtle radial -->
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse 70% 40% at 30% 20%, rgba(34,197,94,.06) 0%, transparent 60%);"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <p class="reveal font-body text-verde-400 font-semibold text-sm tracking-widest uppercase mb-4">A solução</p>
+            <h2 class="reveal reveal-delay-1 font-display text-4xl sm:text-5xl md:text-6xl font-bold text-areia-100 leading-tight mb-6">
+                5 pilares de inteligência<br>
+                <span class="text-verde-400">num único WhatsApp.</span>
+            </h2>
+            <p class="reveal reveal-delay-2 font-body text-lg text-areia-200/60 max-w-2xl mx-auto">
+                O João Verde cruza dados de clima, satélite, solo, seguros e perdas para entregar decisões — não relatórios.
+            </p>
+        </div>
+
+        <!-- Row 1: 3 pillars -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <!-- Pilar 1: Clima -->
+            <div class="reveal reveal-delay-1 pillar-card p-8 rounded-2xl bg-terra-700/50 border border-verde-500/10 backdrop-blur-sm">
+                <div class="w-12 h-12 rounded-xl bg-verde-500/15 flex items-center justify-center mb-5">
+                    <i data-lucide="cloud-sun" class="w-6 h-6 text-verde-400"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-areia-100 mb-2">Inteligência Climática</h3>
+                <p class="font-body text-areia-200/60 leading-relaxed">Previsões de 10 minutos a 6 meses. Dados Meteoblue traduzidos em linguagem do campo.</p>
+            </div>
+            <!-- Pilar 2: Satélite -->
+            <div class="reveal reveal-delay-2 pillar-card p-8 rounded-2xl bg-terra-700/50 border border-verde-500/10 backdrop-blur-sm">
+                <div class="w-12 h-12 rounded-xl bg-verde-500/15 flex items-center justify-center mb-5">
+                    <i data-lucide="satellite" class="w-6 h-6 text-verde-400"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-areia-100 mb-2">Monitoramento Satelital</h3>
+                <p class="font-body text-areia-200/60 leading-relaxed">NDVI e NDWI via Sentinel-2 com resolução de 10 metros. Saúde da lavoura vista do espaço.</p>
+            </div>
+            <!-- Pilar 3: Solo GEE -->
+            <div class="reveal reveal-delay-3 pillar-card p-8 rounded-2xl bg-terra-700/50 border border-verde-500/10 backdrop-blur-sm">
+                <div class="w-12 h-12 rounded-xl bg-verde-500/15 flex items-center justify-center mb-5">
+                    <i data-lucide="sprout" class="w-6 h-6 text-verde-400"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-areia-100 mb-2">Análise de Solo via Satélite</h3>
+                <p class="font-body text-areia-200/60 leading-relaxed">Google Earth Engine — SoilGrids 250m. pH, carbono, argila, areia e capacidade hídrica do pixel exato da propriedade.</p>
+            </div>
+        </div>
+
+        <!-- Row 2: 2 pillars (centered) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <!-- Pilar 4: Seguro -->
+            <div class="reveal reveal-delay-4 pillar-card p-8 rounded-2xl bg-terra-700/50 border border-verde-500/10 backdrop-blur-sm">
+                <div class="w-12 h-12 rounded-xl bg-verde-500/15 flex items-center justify-center mb-5">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-verde-400"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-areia-100 mb-2">Seguro Paramétrico</h3>
+                <p class="font-body text-areia-200/60 leading-relaxed">Educação sobre coberturas com dados históricos de 20 anos de sinistros por cultura e município.</p>
+            </div>
+            <!-- Pilar 5: Perdas -->
+            <div class="reveal reveal-delay-5 pillar-card p-8 rounded-2xl bg-terra-700/50 border border-verde-500/10 backdrop-blur-sm">
+                <div class="w-12 h-12 rounded-xl bg-verde-500/15 flex items-center justify-center mb-5">
+                    <i data-lucide="heart-handshake" class="w-6 h-6 text-verde-400"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-areia-100 mb-2">Orientação de Perdas</h3>
+                <p class="font-body text-areia-200/60 leading-relaxed">Empatia + análise climática + contexto da cultura. O produtor não fica sozinho quando a lavoura sofre.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 4 — NARRATIVA 50/50 EM AÇÃO (DIFERENCIAL)
+     ══════════════════════════════════════════════════════════════ -->
+<section class="relative py-24 sm:py-32 bg-areia-50 overflow-hidden">
+    <!-- Decorative circles -->
+    <div class="absolute -left-40 top-20 w-80 h-80 rounded-full bg-verde-500/[.03]"></div>
+    <div class="absolute -right-20 bottom-10 w-60 h-60 rounded-full bg-trigo-500/[.04]"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <p class="reveal font-body text-verde-600 font-semibold text-sm tracking-widest uppercase mb-4">O diferencial</p>
+            <h2 class="reveal reveal-delay-1 font-display text-4xl sm:text-5xl md:text-6xl font-bold text-terra-800 leading-tight mb-6">
+                De <span class="text-terra-800/30">caos de dados</span><br>
+                para <span class="text-verde-600">clareza de decisão.</span>
+            </h2>
+            <p class="reveal reveal-delay-2 font-body text-lg text-terra-700/60 max-w-2xl mx-auto">
+                A Narrativa 50/50 — metade dos dados vira contexto, metade vira ação. O produtor recebe uma frase, não um relatório.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <!-- ANTES: raw data -->
+            <div class="reveal reveal-delay-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
+                        <i data-lucide="database" class="w-4 h-4 text-red-400"></i>
+                    </div>
+                    <span class="font-body text-sm font-bold text-terra-800/50 tracking-widest uppercase">Antes — Dado bruto</span>
+                </div>
+                <div class="bg-terra-900 rounded-2xl p-6 sm:p-8 border border-terra-700/50 shadow-2xl shadow-terra-900/20">
+                    <!-- Terminal dots -->
+                    <div class="flex items-center gap-2 mb-5">
+                        <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/60"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/60"></div>
+                        <span class="text-areia-300/30 text-xs font-mono ml-2">meteoblue_api_response.json</span>
+                    </div>
+                    <pre class="font-mono text-[11px] sm:text-xs text-verde-300/60 whitespace-pre-wrap leading-relaxed overflow-hidden"><code>{
+  "data_1h": {
+    "temperature": [28.1, 29.3, 31.2, 33.4,
+      <span class="text-trigo-400/80">35.1, 36.2</span>, 35.8, 34.1, ...],
+    "windspeed": [5.2, 6.1, 7.3, <span class="text-verde-400/80">8.4</span>,
+      9.1, 7.8, 6.4, 5.9, ...],
+    "relativehumidity": [82, 74, 62, 51,
+      <span class="text-trigo-400/80">45</span>, 42, 44, 48, ...],
+    "precipitation": [0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, ...],
+    "precipitation_probability": [0, 0, 0,
+      0, 0, 0, 0, 2, 5, ...],
+    "windDirection": [45, 52, 48, 55, ...],
+    "uvIndex": [9.2, 10.8, <span class="text-red-400/80">11.2</span>, 10.1, ...]
+  }
+  <span class="text-areia-300/25">// ... 336 pontos × 8 variáveis
+  // = 2.688 dados por consulta</span>
+}</code></pre>
+                    <div class="mt-4 pt-4 border-t border-terra-700/40 text-areia-300/25 text-[10px] font-mono">
+                        ⚠ 14 dias × 24h × 8 vars — incompreensível para decisão rápida
+                    </div>
+                </div>
+            </div>
+
+            <!-- DEPOIS: narrative -->
+            <div class="reveal reveal-delay-2">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-verde-500/10 flex items-center justify-center">
+                        <i data-lucide="message-circle" class="w-4 h-4 text-verde-500"></i>
+                    </div>
+                    <span class="font-body text-sm font-bold text-terra-800/50 tracking-widest uppercase">Depois — João Verde</span>
+                </div>
+                <div class="bg-white rounded-2xl border-2 border-verde-500/20 shadow-2xl shadow-verde-500/5 overflow-hidden">
+                    <!-- WhatsApp-style header -->
+                    <div class="bg-terra-800 px-6 py-4 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-verde-500/20 flex items-center justify-center">
+                            <span class="text-lg">🌿</span>
+                        </div>
+                        <div>
+                            <p class="text-areia-100 font-body font-semibold text-sm">João Verde</p>
+                            <p class="text-verde-400 font-body text-xs">online</p>
+                        </div>
+                    </div>
+                    <!-- Message -->
+                    <div class="p-6 sm:p-8">
+                        <div class="bg-areia-50 rounded-2xl rounded-tl-none p-5 mb-5 border border-areia-200">
+                            <p class="font-body text-terra-800 text-base sm:text-lg leading-relaxed">
+                                ☀️ Sol até quarta (32-36°C) com vento fraco — <strong class="text-verde-600">janela aberta pra pulverizar.</strong>
+                            </p>
+                            <p class="text-right text-areia-300 text-xs mt-2 font-mono">14:32 ✓✓</p>
+                        </div>
+
+                        <!-- Decision formula -->
+                        <div class="bg-gradient-to-br from-trigo-500/8 to-verde-500/5 rounded-xl p-5 border border-trigo-500/20">
+                            <p class="font-body text-terra-700/70 text-sm font-medium mb-2 flex items-center gap-2">
+                                <i data-lucide="lightbulb" class="w-4 h-4 text-trigo-500"></i>
+                                Fórmula de decisão
+                            </p>
+                            <p class="font-mono text-sm text-terra-700/50 mb-2">
+                                Clima + R5 + preço alto =
+                            </p>
+                            <p class="font-display text-2xl sm:text-3xl font-bold text-terra-900">
+                                COLHA ATÉ QUARTA
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transformation arrow (centered between on desktop) -->
+        <div class="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-8 z-20">
+            <div class="w-16 h-16 rounded-full bg-verde-500 flex items-center justify-center shadow-lg shadow-verde-500/30">
+                <i data-lucide="arrow-right" class="w-7 h-7 text-white"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 5 — NÚMEROS QUE IMPRESSIONAM
+     ══════════════════════════════════════════════════════════════ -->
+<section class="relative py-24 sm:py-32 bg-terra-900 grain overflow-hidden">
+    <div class="absolute inset-0 topo-grid opacity-50"></div>
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse 50% 60% at 70% 50%, rgba(212,168,67,.05) 0%, transparent 60%);"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <p class="reveal font-body text-trigo-400 font-semibold text-sm tracking-widest uppercase mb-4">Em números</p>
+            <h2 class="reveal reveal-delay-1 font-display text-4xl sm:text-5xl md:text-6xl font-bold text-areia-100 leading-tight">
+                A escala por trás<br>de cada resposta.
+            </h2>
+        </div>
+
+        <!-- Row 1 -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-8">
+            <div class="reveal reveal-delay-1 text-center p-6 rounded-2xl bg-terra-800/50 border border-verde-500/10">
+                <div class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-verde-400 leading-none mb-3">65</div>
+                <div class="font-body text-sm text-areia-300/50">ferramentas de IA<br>integradas</div>
+            </div>
+            <div class="reveal reveal-delay-2 text-center p-6 rounded-2xl bg-terra-800/50 border border-verde-500/10">
+                <div class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-areia-100 leading-none mb-3">35</div>
+                <div class="font-body text-sm text-areia-300/50">anos de dados<br>climáticos</div>
+            </div>
+            <div class="reveal reveal-delay-3 text-center p-6 rounded-2xl bg-terra-800/50 border border-verde-500/10">
+                <div class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-areia-100 leading-none mb-3">20</div>
+                <div class="font-body text-sm text-areia-300/50">anos de histórico<br>de sinistros</div>
+            </div>
+            <div class="reveal reveal-delay-4 text-center p-6 rounded-2xl bg-terra-800/50 border border-verde-500/10">
+                <div class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-trigo-400 leading-none mb-3">13</div>
+                <div class="font-body text-sm text-areia-300/50">modelos de risco<br>por cultura</div>
+            </div>
+        </div>
+
+        <!-- Row 2 (centered) -->
+        <div class="flex flex-wrap justify-center gap-6 lg:gap-8">
+            <div class="reveal reveal-delay-2 text-center p-6 rounded-2xl bg-terra-800/50 border border-verde-500/10 w-[calc(50%-12px)] lg:w-56">
+                <div class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-verde-400 leading-none mb-3">10<span class="text-3xl sm:text-4xl text-verde-400/50">m</span></div>
+                <div class="font-body text-sm text-areia-300/50">resolução satelital<br>Sentinel-2</div>
+            </div>
+            <div class="reveal reveal-delay-3 text-center p-6 rounded-2xl bg-terra-800/50 border border-trigo-500/20 w-[calc(50%-12px)] lg:w-56">
+                <div class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-trigo-400 leading-none mb-3">250<span class="text-3xl sm:text-4xl text-trigo-400/50">m</span></div>
+                <div class="font-body text-sm text-areia-300/50">resolução de solo<br>Google Earth Engine</div>
+            </div>
+            <div class="reveal reveal-delay-4 text-center p-6 rounded-2xl bg-terra-800/50 border border-verde-500/10 w-[calc(50%-12px)] lg:w-56">
+                <div class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-areia-100 leading-none mb-3">250</div>
+                <div class="font-body text-sm text-areia-300/50">caracteres — decisões<br>que cabem no WhatsApp</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 6 — COMO FUNCIONA
+     ══════════════════════════════════════════════════════════════ -->
+<section class="relative py-24 sm:py-32 bg-areia-50">
+    <!-- Wave from dark -->
+    <div class="absolute -top-px left-0 right-0 wave-top">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" fill="#0d1f15"><path d="M0,0 L1440,0 L1440,30 Q1080,60 720,30 Q360,0 0,30 Z"/></svg>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <p class="reveal font-body text-verde-600 font-semibold text-sm tracking-widest uppercase mb-4">Simples assim</p>
+            <h2 class="reveal reveal-delay-1 font-display text-4xl sm:text-5xl md:text-6xl font-bold text-terra-800 leading-tight">
+                Como funciona.
+            </h2>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-stretch gap-6 md:gap-4">
+            <!-- Step 1 -->
+            <div class="reveal reveal-delay-1 flex-1 text-center p-8 rounded-2xl bg-white border border-areia-200">
+                <div class="w-10 h-10 rounded-full bg-verde-500 text-white font-display font-bold text-lg flex items-center justify-center mx-auto mb-6">1</div>
+                <div class="w-16 h-16 rounded-2xl bg-verde-500/10 flex items-center justify-center mx-auto mb-5">
+                    <i data-lucide="smartphone" class="w-8 h-8 text-verde-500"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-terra-800 mb-3">Produtor pergunta</h3>
+                <p class="font-body text-terra-700/60 leading-relaxed">Mensagem no WhatsApp — como conversar com um vizinho que entende de tudo.</p>
+            </div>
+
+            <!-- Arrow -->
+            <div class="hidden md:flex items-center justify-center px-2">
+                <i data-lucide="chevron-right" class="w-8 h-8 text-verde-500/30"></i>
+            </div>
+            <div class="flex md:hidden items-center justify-center py-1">
+                <i data-lucide="chevron-down" class="w-8 h-8 text-verde-500/30"></i>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="reveal reveal-delay-2 flex-1 text-center p-8 rounded-2xl bg-white border border-areia-200">
+                <div class="w-10 h-10 rounded-full bg-verde-500 text-white font-display font-bold text-lg flex items-center justify-center mx-auto mb-6">2</div>
+                <div class="w-16 h-16 rounded-2xl bg-verde-500/10 flex items-center justify-center mx-auto mb-5">
+                    <i data-lucide="brain" class="w-8 h-8 text-verde-500"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-terra-800 mb-3">João analisa</h3>
+                <p class="font-body text-terra-700/60 leading-relaxed">Cruza clima + satélite + histórico + fase da cultura em tempo real.</p>
+            </div>
+
+            <!-- Arrow -->
+            <div class="hidden md:flex items-center justify-center px-2">
+                <i data-lucide="chevron-right" class="w-8 h-8 text-verde-500/30"></i>
+            </div>
+            <div class="flex md:hidden items-center justify-center py-1">
+                <i data-lucide="chevron-down" class="w-8 h-8 text-verde-500/30"></i>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="reveal reveal-delay-3 flex-1 text-center p-8 rounded-2xl bg-white border border-areia-200">
+                <div class="w-10 h-10 rounded-full bg-verde-500 text-white font-display font-bold text-lg flex items-center justify-center mx-auto mb-6">3</div>
+                <div class="w-16 h-16 rounded-2xl bg-verde-500/10 flex items-center justify-center mx-auto mb-5">
+                    <i data-lucide="check-circle" class="w-8 h-8 text-verde-500"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-terra-800 mb-3">Resposta acionável</h3>
+                <p class="font-body text-terra-700/60 leading-relaxed">Narrativa 50/50 direto no celular — contexto + recomendação em 250 caracteres.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 7 — CTA FINAL
+     ══════════════════════════════════════════════════════════════ -->
+<section class="relative py-24 sm:py-36 overflow-hidden" style="background: linear-gradient(135deg, #1a3a2a 0%, #0d1f15 40%, #1a3a2a 100%);">
+    <div class="absolute inset-0 grain"></div>
+    <div class="absolute inset-0 topo-grid opacity-40"></div>
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(34,197,94,.1) 0%, transparent 70%);"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-6 text-center">
+        <div class="reveal mb-8">
+            <span class="text-6xl">🌿</span>
+        </div>
+
+        <h2 class="reveal reveal-delay-1 font-display text-4xl sm:text-5xl md:text-6xl font-bold text-areia-100 leading-tight mb-6">
+            Converse com o<br>
+            <span class="text-verde-400">João Verde.</span>
+        </h2>
+
+        <p class="reveal reveal-delay-2 font-body text-xl text-areia-200/60 mb-12 max-w-xl mx-auto">
+            Teste agora no WhatsApp. Pergunte sobre clima, solo, satélite ou seguro — ele entende de tudo.
+        </p>
+
+        <div class="reveal reveal-delay-3">
+            <a href="https://wa.me/5564999531328" target="_blank" rel="noopener"
+               class="cta-pulse inline-flex items-center gap-4 px-10 sm:px-14 py-5 sm:py-6 bg-verde-500 hover:bg-verde-400 text-terra-900 font-body font-bold text-lg sm:text-xl rounded-2xl transition-all duration-300 hover:scale-[1.03]">
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.67-1.318A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.204 0-4.262-.655-5.976-1.785l-.418-.273-2.774.783.845-2.637-.305-.465A9.944 9.944 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+                Iniciar Conversa
+            </a>
+        </div>
+
+        <p class="reveal reveal-delay-4 font-body text-areia-300/30 text-sm mt-8">
+            +55 64 9953-1328
+        </p>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════════════════════ -->
+<footer class="bg-terra-950 py-8 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="font-body text-areia-300/30 text-sm">
+            <span class="font-semibold text-areia-300/50">Terra Verde Seguros</span>
+            <span class="mx-2 text-areia-300/15">×</span>
+            <span class="font-semibold text-areia-300/50">GoSellers AI</span>
+        </p>
+        <p class="font-body text-areia-300/20 text-xs">
+            Vendedores Artificiais. Resultados Exponenciais. — 2026
+        </p>
+    </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════════════════════════════ -->
+<script>
+    // Lucide icons
+    lucide.createIcons();
+
+    // Scroll reveal with Intersection Observer
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+
+</body>
+</html>
